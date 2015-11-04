@@ -16,7 +16,7 @@ module.exports = {
         });
     },
 
-    log: () => {
+    log: function () {
         logger.log.apply(logger, Array.prototype.slice.call(arguments));
     }
 };
