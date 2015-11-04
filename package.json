@@ -16,8 +16,10 @@
     "url": "https://github.com/filc/node-winston-logger-adapter/issues"
   },
   "homepage": "https://github.com/filc/node-winston-logger-adapter#readme",
-  "dependencies": {},
-  "devDependencies": {
+  "dependencies": {
     "winston": "1.0.2"
+  },
+  "devDependencies": {
+
   }
 }
