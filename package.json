@@ -1,6 +1,6 @@
 {
   "name": "winston-logger-adapter",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Logger adapter",
   "main": "logger-adapter.js",
   "scripts": {
@@ -19,7 +19,5 @@
   "dependencies": {
     "winston": "1.0.2"
   },
-  "devDependencies": {
-
-  }
+  "devDependencies": {}
 }
