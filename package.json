@@ -17,7 +17,8 @@
   },
   "homepage": "https://github.com/filc/node-winston-logger-adapter#readme",
   "dependencies": {
-    "winston": "1.0.2"
+    "winston": "1.0.2",
+    "winston-mail": "^1.0.0"
   },
   "devDependencies": {}
 }
