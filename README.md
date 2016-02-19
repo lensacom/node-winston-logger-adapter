@@ -24,6 +24,11 @@ var config = {
     subject: 'Example subject',
     from: 'Example Sender <sender@example.com>', // EX: 'I'M A BOT <bot@test.com>, ...'
     level: 'error'
+  },
+  enableSentry: true,
+  sentryConfig: {
+    level: 'error',
+    dsn: '{{ YOUR SENTRY DSN }}'
   }
 }
 

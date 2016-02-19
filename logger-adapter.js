@@ -2,6 +2,7 @@
 
 var winston = require('winston');
 var Mail = require('winston-mail').Mail;
+var Sentry = require('winston-sentry');
 var config;
 var logger;
 
@@ -22,6 +23,10 @@ module.exports = {
 
         if (config.enableMails) {
             logger.add(Mail, config.mailConfig);
+        }
+
+        if (config.enableSentry) {
+            logger.add(Sentry, config.sentryConfig);
         }
     },
 
