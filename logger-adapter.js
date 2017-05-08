@@ -15,9 +15,20 @@ module.exports = {
                 new winston.transports.Console({level: config.level})
             ],
             levels: {
-                'info': 1,
-                'debug': 3,
-                'error': 5
+                error: 0,
+                warn: 1,
+                info: 2,
+                verbose: 3,
+                debug: 4,
+                silly: 5
+            },
+            colors: {
+                error: 'red',
+                warn: 'yellow',
+                info: 'green',
+                verbose: 'cyan',
+                debug: 'blue',
+                silly: 'magenta'
             }
         });
 
