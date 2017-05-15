@@ -3,11 +3,41 @@
 var winston = require('winston');
 var Mail = require('winston-mail').Mail;
 var Sentry = require('winston-sentry');
+var connector;
 var config;
 var logger;
+var throttle = function () {
+    return Promise.resolve(false);
+};
+
+function initThrottle(config) {
+    var throttleAdapter;
+    if (!config) {
+        return;
+    }
+    if (!config.adapter) {
+        return;
+    }
+    if (typeof connector.getAdapter === 'function') {
+        throttleAdapter = connector.getAdapter(config.adapter);
+    } else {
+        throttleAdapter = connector[config.adapter];
+    }
+    if (!throttleAdapter) {
+        return;
+    }
+    if (typeof throttleAdapter.throttle !== 'function') {
+        return;
+    }
+
+    throttle = function () {
+        return Promise.resolve(throttleAdapter.throttle.apply(throttleAdapter, Array.prototype.slice.call(arguments)));
+    }
+}
 
 module.exports = {
-    initAdapter: (connector, _config) => {
+    initAdapter: (_connector, _config) => {
+        connector = _connector;
         config = _config;
 
         logger = new winston.Logger({
@@ -39,9 +69,21 @@ module.exports = {
         if (config.enableSentry) {
             logger.add(Sentry, config.sentryConfig);
         }
+
+        initThrottle(config.throttle);
     },
 
     log: function () {
-        logger.log.apply(logger, Array.prototype.slice.call(arguments));
+        var argumentsArray = Array.prototype.slice.call(arguments);
+        throttle.apply(null, argumentsArray)
+            .then(isThrottled => {
+                if (!isThrottled) {
+                    logger.log.apply(logger, argumentsArray);
+                }
+            })
+            .catch(err => {
+                logger.log('error', err);
+                logger.log.apply(logger, argumentsArray);
+            });
     }
 };
