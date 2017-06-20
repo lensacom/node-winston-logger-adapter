@@ -35,6 +35,18 @@ function initThrottle(config) {
     }
 }
 
+function convertErrorInsteadOfMsgArgToWinston(args) {
+    var level = args.shift();
+    var msg = args.shift();
+    var meta = args.shift() || {};
+    var message = msg;
+    if (msg instanceof Error) {
+        message = msg.message;
+        meta = Object.assign(msg, meta);
+    }
+    return [level, message, meta];
+}
+
 module.exports = {
     initAdapter: (_connector, _config) => {
         connector = _connector;
@@ -74,16 +86,16 @@ module.exports = {
     },
 
     log: function () {
-        var argumentsArray = Array.prototype.slice.call(arguments);
-        throttle.apply(null, argumentsArray)
+        var args = convertErrorInsteadOfMsgArgToWinston([].slice.call(arguments));
+        throttle.apply(null, args)
             .then(isThrottled => {
                 if (!isThrottled) {
-                    logger.log.apply(logger, argumentsArray);
+                    logger.log.apply(logger, args);
                 }
             })
             .catch(err => {
                 logger.log('error', err);
-                logger.log.apply(logger, argumentsArray);
+                logger.log.apply(logger, args);
             });
     }
 };
