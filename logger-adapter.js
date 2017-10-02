@@ -40,10 +40,24 @@ function convertErrorInsteadOfMsgArgToWinston(args) {
     var msg = args.shift();
     var meta = args.shift() || {};
     var message = msg;
+    var i = 3;
+
     if (msg instanceof Error) {
         message = msg.message;
-        meta = Object.assign(msg, meta);
+
+        if (typeof meta === 'object') {
+            meta = Object.assign(msg, meta);
+        } else {
+            meta = msg;
+            meta['logArg' + i] = meta;
+            i += 1;
+        }
     }
+    args.forEach(function (elem) {
+        meta['logArg' + i] = elem;
+        i += 1;
+    });
+
     return [level, message, meta];
 }
 
