@@ -53,11 +53,12 @@ function convertErrorInsteadOfMsgArgToWinston(args) {
             i += 1;
         }
     }
-    args.forEach(function (elem) {
-        meta['logArg' + i] = elem;
-        i += 1;
-    });
-
+    if (typeof meta === 'object') {
+        args.forEach(function (elem) {
+            meta['logArg' + i] = elem;
+            i += 1;
+        });
+    }
     return [level, message, meta];
 }
 
