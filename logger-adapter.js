@@ -97,6 +97,16 @@ module.exports = {
             logger.add(Sentry, config.sentryConfig);
         }
 
+        if (config.transports && config.transports instanceof Array) {
+            config.transports.forEach((transport) => {
+                if (typeof transport.module === 'string') {
+                    logger.add(require(transport.module), transport.config);
+                } else {
+                    logger.add(transport.module, transport.config);
+                }
+            });
+        }
+
         initThrottle(config.throttle);
     },
 
