@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/filc/node-winston-logger-adapter#readme",
   "dependencies": {
-    "winston": "2.3.1",
+    "winston": "^2.4.0",
     "winston-mail": "^1.3.0",
     "winston-sentry": "git+https://github.com/lensacom/winston-sentry.git"
   },

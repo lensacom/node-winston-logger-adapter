@@ -105,7 +105,6 @@ module.exports = {
                     } else {
                         logger.add(transport.module, transport.config);
                     }
-
                 }
             });
         }
