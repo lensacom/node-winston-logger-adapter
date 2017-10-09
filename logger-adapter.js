@@ -97,8 +97,9 @@ module.exports = {
             logger.add(Sentry, config.sentryConfig);
         }
 
-        if (config.transports && config.transports instanceof Array) {
-            config.transports.forEach((transport) => {
+        if (typeof config.transports === 'object') {
+            Object.keys(config.transports).forEach((transportName) => {
+                var transport = config.transports[transportName];
                 if (!transport.disabled) {
                     if (typeof transport.module === 'string') {
                         logger.add(require(transport.module), transport.config);
