@@ -68,9 +68,7 @@ module.exports = {
         config = _config;
 
         logger = new winston.Logger({
-            transports: [
-                new winston.transports.Console({level: config.level})
-            ],
+            transports: [],
             levels: {
                 error: 0,
                 warn: 1,
@@ -88,6 +86,10 @@ module.exports = {
                 silly: 'magenta'
             }
         });
+
+        if (config.enableConsole) {
+          logger.add(winston.transports.Console, {level: config.level});
+        }
 
         if (config.enableMails) {
             logger.add(Mail, config.mailConfig);
